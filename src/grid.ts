@@ -1,15 +1,17 @@
-import { create2dArray, randomBool } from "./utils"
+import { create2dArray, randomBool } from './utils';
 
 class Grid {
-  contents: Boolean[][]
-  size: number
+  contents: boolean[][];
+
+  size: number;
+
   constructor(size: number, contents: boolean[][]) {
-    this.contents = contents
-    this.size = size
+    this.contents = contents;
+    this.size = size;
   }
 
   private countAdjacent<T>(x: number, y: number) {
-    let count = 0
+    let count = 0;
 
     for (let xOffset = -1; xOffset < 2; xOffset++) {
       for (let yOffset = -1; yOffset < 2; yOffset++) {
@@ -19,30 +21,30 @@ class Grid {
           && y + yOffset >= 0 && y + yOffset < this.contents[0].length
           && this.contents[xOffset + x][y + yOffset]
         ) {
-          count++
+          count++;
         }
       }
     }
 
-    return count
+    return count;
   }
 
   nextState() {
-    const newState = create2dArray(this.size, this.size, () => false)
+    const newState = create2dArray(this.size, this.size, () => false);
     for (let i = 0; i < this.contents.length; i++) {
       for (let j = 0; j < this.contents[0].length; j++) {
-        newState[i][j] = this.contents[i][j] ?
-          this.countAdjacent(i, j) === 2 || this.countAdjacent(i, j) === 3
-          : this.countAdjacent(i, j) === 3
+        newState[i][j] = this.contents[i][j]
+          ? this.countAdjacent(i, j) === 2 || this.countAdjacent(i, j) === 3
+          : this.countAdjacent(i, j) === 3;
       }
     }
-    return new Grid(this.size, newState)
+    return new Grid(this.size, newState);
   }
 
   advance(steps: number) {
-    let result: Grid = this
+    let result: Grid = this;
     for (let i = 0; i < steps; i++) {
-      result = result.nextState()
+      result = result.nextState();
     }
 
     return result;
@@ -51,12 +53,12 @@ class Grid {
   toString() {
     return this.contents
       .map(
-        row => row.map(
-          cell => cell ? '□' : '■'
-        ).join(' ')
+        (row) => row.map(
+          (cell) => (cell ? '□' : '■'),
+        ).join(' '),
       )
       .join('\n');
   }
 }
 
-export default Grid
+export default Grid;
