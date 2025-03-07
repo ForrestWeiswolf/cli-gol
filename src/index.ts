@@ -7,9 +7,9 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-rl.question('Enter grid size\n', (answer: string) => {
-  if (!Number.isNaN((parseInt(answer, 10)))) {
-    const showGrid = (grid) => {
+rl.question('Enter grid size\n', (sizeAnswer: string) => {
+  if (!Number.isNaN((parseInt(sizeAnswer, 10)))) {
+    const showGrid = (grid: Grid) => {
       console.log(grid.toString());
       const prompt = 'Enter number of steps to advance, N to quit, or press enter to advance 1 step\n';
       rl.question(prompt, (answer: string) => {
@@ -17,29 +17,25 @@ rl.question('Enter grid size\n', (answer: string) => {
         if (answer.toLowerCase() === 'n') {
           rl.close();
         } else if (answer === '') {
-          grid = grid.advance(1);
-          showGrid();
+          showGrid(grid.advance(1));
         } else if (!Number.isNaN((parseInt(answer, 10)))) {
-          const stepsToAdvance = parseInt(answer);
-          grid = grid.advance(stepsToAdvance);
-          showGrid();
+          const stepsToAdvance = parseInt(answer, 10);
+          showGrid(grid.advance(stepsToAdvance));
         } else {
-          showGrid();
+          showGrid(grid);
           console.log('Could not parse answer\n');
         }
       });
     };
 
-    const size = parseInt(answer, 10);
+    const size = parseInt(sizeAnswer, 10);
 
     const initial = create2dArray(size, size, randomBool);
     // initial[1][1] = true
     // initial[1][2] = true
     // initial[1][3] = true
 
-    let grid = new Grid(size, initial);
-
-    showGrid();
+    showGrid(new Grid(size, initial));
   } else {
     console.log('Could not parse answer\n');
   }
