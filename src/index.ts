@@ -1,13 +1,11 @@
 import { create2dArray, randomBool } from "./utils";
 import Grid from './grid'
+import readline from 'readline'
 
-var readline = require('readline');
-
-var rl = readline.createInterface({
+const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
-
 
 rl.question("Enter grid size\n", function (answer: string) {
   if (!Number.isNaN((parseInt(answer, 10)))) {
